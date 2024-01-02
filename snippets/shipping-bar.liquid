@@ -1,0 +1,50 @@
+{% if settings.threshold_amount != blank %}
+  <div class="shipping__bar--wrap">
+  
+    {% assign threshold_amount = settings.threshold_amount | times: 100  %}
+    {% assign total_price =  cart.total_price %}
+    
+    {% if cart.items.size == 0 %}
+      Add items to your cart to receive free shipping.
+    {% else %}
+      {% if cart.total_price >= threshold_amount %} 
+        You've got free shipping 👌
+      {% elsif total_price < threshold_amount %}
+        You're only {{ threshold_amount | minus: total_price | money }} away from free shipping.
+      {% endif %}
+    {% endif %}
+  
+    {% assign percentage =  total_price | times: 100 | divided_by: threshold_amount  %}
+
+    <div class="progress_bar-wrap">
+      <div class="progress_bar" style="width: {{ percentage }}%"> 
+      </div>
+    
+      <div class="shipping_bar">
+        
+      </div>
+    </div>
+    
+  </div>
+{% endif %}
+
+<style>
+
+  .progress_bar-wrap {
+    position: relative;
+  }
+
+  .progress_bar {
+    height: 4px;
+    background: #000;
+    position: absolute;
+  }
+  
+  .shipping_bar {
+    height: 4px;
+    width: 100%;
+    background: #dedede;
+  }
+  
+</style>
+
